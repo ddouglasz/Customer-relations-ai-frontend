@@ -1,24 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import intents from '../src/data/intents.json'
+import Landing from '../src/component/Landing'
 
 function App() {
+  console.log(intents)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header >Header </header>
+      <div className="App-wrapper">
+      <Landing  />
+      </div>
+      <footer>footer </footer>
     </div>
   );
 }
