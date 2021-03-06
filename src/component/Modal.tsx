@@ -1,5 +1,6 @@
 import React, { FC, useRef } from 'react';
 import '../styles/modal.css'
+import styled from 'styled-components';
 
 interface ModalProps {
     title: string;
