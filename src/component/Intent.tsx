@@ -1,18 +1,58 @@
-import React, { FC } from 'react';
-import { IntentsTypes } from '../data/types' 
-import '../styles/intent.css'
+import React, { FC, useState } from 'react';
+import { IntentsTypes } from '../data/types'
+import styled from 'styled-components'
+import {Button} from './Buttons/button'
+import { notify } from "../actions/toastActions"
+
+
+const StyledIntentWrapper = styled.div`
+    background-color: #173F5F;
+    margin: 20px;
+    padding: 20px;
+    width: 300px;
+    min-height: 300px;
+    position: relative;
+
+    .btn {
+        border-radius: 4px;
+    }
+
+    .btn:focus{
+        outline: none;
+    }
+
+    .integrate-btn {
+        position: absolute;
+        bottom: 15px;
+    }
+    
+    .demo-btn {
+        position: absolute;
+        bottom: 15px;
+        left: 76%;
+    }
+`;
 
 interface IntentProps {
     intentsData: IntentsTypes
-    onclick: (intent: IntentsTypes) => void
+    onClickIntentDetails: (intent: IntentsTypes) => void
 }
 
-export const Intent: FC<IntentProps> = ({ intentsData, onclick, children }) => {
+
+export const Intent: FC<IntentProps> = ({ intentsData, onClickIntentDetails, children }) => {
+  
+    const addFlashMessage = () => {
+        notify(`${intentsData.name} intent added successfully`, 'success');
+    }
 
     return (
-        intentsData ? ( <div className="intent-cover" onClick={() => onclick(intentsData)} >
-            <div>{intentsData && intentsData.name}</div>
+        intentsData ? (
+            <StyledIntentWrapper className="intent-cover" >
             <div>{children}</div>
-        </div>) : null
- );
+            <div>
+                <Button classes='demo-btn btn' onclick={() => onClickIntentDetails(intentsData)} title='Demo' />
+                <Button classes='integrate-btn btn' onclick={addFlashMessage} title='Integrate' />
+            </div>
+        </StyledIntentWrapper>) : null
+    );
 };

@@ -1,6 +1,9 @@
 import React, { FC, useRef } from 'react';
-import '../styles/modal.css'
 import styled from 'styled-components';
+
+const StyledModalCover = styled.div`
+    background-color: rgba(0, 0, 0, 0.8);
+`;
 
 interface ModalProps {
     title: string;
@@ -29,7 +32,7 @@ export const Modal: FC<ModalProps> = ({ children, title, onClose, open }) => {
     
 
     return (
-        <div data-testid="modal-container" className="" id="modal-id" onClick={(e: ModalMouseEvent) => handleOutsideClick(e)}>
+        <StyledModalCover data-testid="modal-container" className="" id="modal-id" onClick={(e: ModalMouseEvent) => handleOutsideClick(e)}>
             <div className="">
                 <header className="">
                     <h2 className="">{title}</h2>
@@ -37,6 +40,6 @@ export const Modal: FC<ModalProps> = ({ children, title, onClose, open }) => {
                 </header>
                 <div className="">{children}</div>
             </div>
-        </div>
+        </StyledModalCover>
     );
 };

@@ -11,4 +11,8 @@ export interface IntentsTypes {
         expressionCount: number,
         expressions: ExpressionsTypes[] 
     }
+    reply: {
+        id: string
+        text: string
+    }
 };
