@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface ChatCardProps {
     text: string
     isBotResponse: boolean
+    key?: string | number
 }
 
 type ContainerType = {

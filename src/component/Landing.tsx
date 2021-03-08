@@ -3,9 +3,14 @@ import { Intent } from './Intent'
 import { Modal } from './Modal'
 import { ChatCard } from './ChatCard'
 import { IntentsTypes } from '../data/types'
-import {Button} from './Buttons/button'
+// import {Button} from './Buttons/button'
 import intents from '../data/intents.json'
 import styled from 'styled-components'
+
+ interface ChatsTypes {
+    message: string
+    bot: boolean
+}
 
 const StyledLanding = styled.div`
     .intents-list-cards {
@@ -42,16 +47,21 @@ const StyledChatBox = styled.div`
 
 export const Landing = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [messageType, SetMessageType] = useState(false);
-    const [message, setMessage] = useState('')
+    const [isCustomer, setIsCustomer] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>('')
+    const [text, setText] = useState<ChatsTypes[] | null>(null)
     const [intentProperties, setIntentProperties] = useState<null | IntentsTypes>(null);
+
 
     const getIntentsDetails = (intent: IntentsTypes) => {
         setIntentProperties(intent)
         setShowModal(true)
     }
 
+    // since we are not persisting the data, 
+    // we want to clear the initial chats before opening the Modal again
     const onclose = () => {
+        setText(null)
         setShowModal(false)
     }
 
@@ -63,11 +73,22 @@ export const Landing = () => {
 
     }
 
-    const sendTextMessage = () => {
-        // console.log(message)
+    //track chats locally before storing in state
+    const chats: ChatsTypes[] = [];
+
+    const sendTextMessage = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setIsCustomer(true)
+        chats.push({message: message, bot: isCustomer})
+        setMessage('') //clear the text field
+        setText(chats)
     }
 
 
+
+
+    
+    
     return (
         <>
         <StyledLanding>
@@ -78,7 +99,7 @@ export const Landing = () => {
                     <div className="intent-name-cover"><span className="intent-name">Intent name: </span>{intent.name}</div>
                     <div className="intent-description">[ {intent.description} ]</div>
                     <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
-                    <ChatCard isBotResponse={messageType} text={intent.reply.text} />
+                    <ChatCard isBotResponse={isCustomer} text={intent.reply.text} />
                 </Intent>
                 ))}
             </div>
@@ -86,22 +107,21 @@ export const Landing = () => {
         </StyledLanding>
 
         {intentProperties ? 
-        <Modal title={intentProperties.name} onClose={onclose} open={showModal}>
-
-            <ChatCard isBotResponse={true} text={intentProperties.trainingData.expressions[0].text} />
-            <ChatCard isBotResponse={messageType} text={intentProperties.reply.text} />
-            <form onSubmit={sendTextMessage}>
+        <Modal title={intentProperties.description} onClose={onclose} open={showModal}>
+            {(text && text.map((chat, i) => (
+                <ChatCard isBotResponse={chat.bot} text={chat.message} key={i} /> 
+            )))}
+            <form onSubmit={(e) => sendTextMessage(e)}>
                 <StyledChatBox>
                     <input
                     type="text"
                     className="chatbox-field"
                     name="Chat" 
-                    placeholder="Type in your message"
-                    value={''}
-                    // onChange={(e) => handleChange(e.target.value)}
-                    />    
+                    placeholder="Ask us a question..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    />
                 </StyledChatBox>
-            
             </form>
         </Modal> : null}
         </>

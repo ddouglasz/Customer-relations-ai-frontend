@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { IntentsTypes } from '../data/types'
 import styled from 'styled-components'
 import {Button} from './Buttons/button'
@@ -12,7 +12,6 @@ const StyledIntentWrapper = styled.div`
     width: 300px;
     min-height: 300px;
     position: relative;
-    /* box-shadow: 5px 5px 5px #00308F; */
 
     .btn {
         border-radius: 4px;
@@ -46,6 +45,7 @@ interface IntentProps {
 
 export const Intent: FC<IntentProps> = ({ intentsData, onClickIntentDetails, children }) => {
   
+    //Simulate successful notification for adding integrating an intent to a user's chat
     const addFlashMessage = () => {
         notify(`${intentsData.name} intent added successfully`, 'success');
     }

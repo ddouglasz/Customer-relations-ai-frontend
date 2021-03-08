@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const StyledModalCover = styled.div`
