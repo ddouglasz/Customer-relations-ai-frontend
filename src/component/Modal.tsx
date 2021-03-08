@@ -37,6 +37,10 @@ const StyledModalCover = styled.div`
         display: flex;
         flex-direction: row-reverse;
     }
+
+    .modal-header {
+        text-align: center;
+    }
 `;
 
 interface ModalProps {

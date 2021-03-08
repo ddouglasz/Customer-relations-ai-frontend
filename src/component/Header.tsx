@@ -58,16 +58,23 @@ const StyledHeader = styled.header`
     }
    
     .list-header {
-        color: #ffff;
+        color: #20639B;
         margin-top: 10%;
         font-size: 50px;
     }
-
+    
     .hero-text {
         width: 50%;
         margin: auto;
         text-align: center;
         font-weight: 700;
+    }
+    
+    .description {
+        text-align: center;
+        font-size: 20px;
+        color: #ffff;
+        
     }
 `;
 
@@ -87,6 +94,7 @@ export const Header = () => {
             </div>
                 <div className="hero-text">
                     <h1 className="list-header">Explore some of our smart responses</h1>
+                    <div className="description">Allow our AI technology learn and manage some of your repetitive conversations with your customers.</div>
                 </div>
         </StyledHeader>
     );
