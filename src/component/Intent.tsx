@@ -6,12 +6,13 @@ import { notify } from "../actions/toastActions"
 
 
 const StyledIntentWrapper = styled.div`
-    background-color: #173F5F;
+    background-color: #13274F;
     margin: 20px;
     padding: 20px;
     width: 300px;
     min-height: 300px;
     position: relative;
+    /* box-shadow: 5px 5px 5px #00308F; */
 
     .btn {
         border-radius: 4px;
@@ -24,12 +25,16 @@ const StyledIntentWrapper = styled.div`
     .integrate-btn {
         position: absolute;
         bottom: 15px;
+        background-color: #29AB87;
+        color: #ffff;
     }
     
     .demo-btn {
         position: absolute;
         bottom: 15px;
         left: 76%;
+        background-color: #00308F;
+        color: #ffff;
     }
 `;
 

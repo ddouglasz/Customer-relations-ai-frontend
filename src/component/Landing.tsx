@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Intent } from './Intent'
 import { Modal } from './Modal'
 import { ChatCard } from './ChatCard'
 import { IntentsTypes } from '../data/types'
+import {Button} from './Buttons/button'
 import intents from '../data/intents.json'
 import styled from 'styled-components'
 
@@ -11,10 +12,6 @@ const StyledLanding = styled.div`
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-    }
-
-    .list-header {
-        text-align: center;
     }
 
     .intent-name {
@@ -26,14 +23,27 @@ const StyledLanding = styled.div`
     }
 
     .intent-description {
-        font-size: 12px; 
+        font-size: 13px; 
     }
+`;
+
+const StyledChatBox = styled.div`
+        .chatbox-field{
+            position: absolute;
+            bottom: 46px;
+            width: 92%;
+            height: 40px;
+            padding: 0 10px;
+            border-radius: 4px;
+            border: none; 
+        }
+       
 `;
 
 export const Landing = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [messageType, SetMessageType] = useState(false);
-    const [message, setMessage] = useState('here here')
+    const [message, setMessage] = useState('')
     const [intentProperties, setIntentProperties] = useState<null | IntentsTypes>(null);
 
     const getIntentsDetails = (intent: IntentsTypes) => {
@@ -53,8 +63,8 @@ export const Landing = () => {
 
     }
 
-    const getTextMessage = () => {
-        
+    const sendTextMessage = () => {
+        // console.log(message)
     }
 
 
@@ -62,7 +72,6 @@ export const Landing = () => {
         <>
         <StyledLanding>
             <div>
-            <h2 className="list-header">Explore some of our smart responses</h2>
             <div className="intents-list-cards">
                 {intents.map((intent) => (
                 <Intent intentsData={intent} onClickIntentDetails={getIntentsDetails} key={intent.id} >
@@ -78,8 +87,22 @@ export const Landing = () => {
 
         {intentProperties ? 
         <Modal title={intentProperties.name} onClose={onclose} open={showModal}>
-            <div>{intentProperties.description}</div>
-            <div>{intentProperties.reply.text}</div>
+
+            <ChatCard isBotResponse={true} text={intentProperties.trainingData.expressions[0].text} />
+            <ChatCard isBotResponse={messageType} text={intentProperties.reply.text} />
+            <form onSubmit={sendTextMessage}>
+                <StyledChatBox>
+                    <input
+                    type="text"
+                    className="chatbox-field"
+                    name="Chat" 
+                    placeholder="Type in your message"
+                    value={''}
+                    // onChange={(e) => handleChange(e.target.value)}
+                    />    
+                </StyledChatBox>
+            
+            </form>
         </Modal> : null}
         </>
     );

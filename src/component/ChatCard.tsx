@@ -16,6 +16,7 @@ const StyledChatCard = styled.div<ContainerType>`
     margin: ${(props: ContainerType) => props.isBotResponse === true ? '20px 30px 20px 0' : '20px 0 20px 30px'};
     padding: 10px 10px;
     font-size: 16px;
+    opacity: 0.5;
 `;
 
 export const ChatCard: FC<ChatCardProps> = ({ text, isBotResponse }) => {
