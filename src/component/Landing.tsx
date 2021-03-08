@@ -7,7 +7,7 @@ import { IntentsTypes } from '../data/types'
 import intents from '../data/intents.json'
 import styled from 'styled-components'
 
- interface ChatsTypes {
+interface ChatsTypes {
     message: string
     bot: boolean
 }
@@ -49,6 +49,7 @@ export const Landing = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [isCustomer, setIsCustomer] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('')
+    const [botReply, setBotReply] = useState<string>('')
     const [text, setText] = useState<ChatsTypes[] | null>(null)
     const [intentProperties, setIntentProperties] = useState<null | IntentsTypes>(null);
 
@@ -62,6 +63,7 @@ export const Landing = () => {
     // we want to clear the initial chats before opening the Modal again
     const onclose = () => {
         setText(null)
+        setBotReply('')
         setShowModal(false)
     }
 
@@ -69,8 +71,19 @@ export const Landing = () => {
     // or at least tell the user something in the interim
     if (!intents) return (<div className=""> loading... </div>)
 
-    const getQuestionType = () => {
+    //To avoid user from being conditioned to case-sensitive inputs,
+    //format string to lower for comparison.
+    const formatToLower = (str: string) => {
+        return str.toLowerCase().trim()
+    }
 
+    // search intent for user question.
+    const sendBotReply = (message: string) => {
+        intentProperties && intentProperties.trainingData.expressions.map((intentProperty) => {
+            if (formatToLower(intentProperty.text).includes(formatToLower(message))) {
+            setBotReply(intentProperties.reply.text)
+            }
+        })
     }
 
     //track chats locally before storing in state
@@ -79,51 +92,54 @@ export const Landing = () => {
     const sendTextMessage = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsCustomer(true)
-        chats.push({message: message, bot: isCustomer})
+        chats.push({ message: message, bot: isCustomer })
         setMessage('') //clear the text field
         setText(chats)
+
+       setTimeout(() => sendBotReply(message), 1000) //delay to simulate response
     }
 
 
 
 
-    
-    
+
+
     return (
         <>
-        <StyledLanding>
-            <div>
-            <div className="intents-list-cards">
-                {intents.map((intent) => (
-                <Intent intentsData={intent} onClickIntentDetails={getIntentsDetails} key={intent.id} >
-                    <div className="intent-name-cover"><span className="intent-name">Intent name: </span>{intent.name}</div>
-                    <div className="intent-description">[ {intent.description} ]</div>
-                    <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
-                    <ChatCard isBotResponse={isCustomer} text={intent.reply.text} />
-                </Intent>
-                ))}
-            </div>
-            </div>
-        </StyledLanding>
+            <StyledLanding>
+                <div>
+                    <div className="intents-list-cards">
+                        {intents.map((intent) => (
+                            <Intent intentsData={intent} onClickIntentDetails={getIntentsDetails} key={intent.id} >
+                                <div className="intent-name-cover"><span className="intent-name">Intent name: </span>{intent.name}</div>
+                                <div className="intent-description">[ {intent.description} ]</div>
+                                <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
+                                <ChatCard isBotResponse={isCustomer} text={intent.reply.text} />
+                            </Intent>
+                        ))}
+                    </div>
+                </div>
+            </StyledLanding>
 
-        {intentProperties ? 
-        <Modal title={intentProperties.description} onClose={onclose} open={showModal}>
-            {(text && text.map((chat, i) => (
-                <ChatCard isBotResponse={chat.bot} text={chat.message} key={i} /> 
-            )))}
-            <form onSubmit={(e) => sendTextMessage(e)}>
-                <StyledChatBox>
-                    <input
-                    type="text"
-                    className="chatbox-field"
-                    name="Chat" 
-                    placeholder="Ask us a question..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    />
-                </StyledChatBox>
-            </form>
-        </Modal> : null}
+            {intentProperties ?
+                <Modal title={intentProperties.description} onClose={onclose} open={showModal}>
+                    {(text && text.map((chat, i) => (
+                        <ChatCard isBotResponse={false} text={chat.message} key={i} />
+                    )))}
+                    {botReply !== '' && <ChatCard isBotResponse={true} text={botReply} />}
+                    <form onSubmit={(e) => sendTextMessage(e)}>
+                        <StyledChatBox>
+                            <input
+                                type="text"
+                                className="chatbox-field"
+                                name="Chat"
+                                placeholder="Ask us a question..."
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                            />
+                        </StyledChatBox>
+                    </form>
+                </Modal> : null}
         </>
     );
 }
