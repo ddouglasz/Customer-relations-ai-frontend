@@ -3,14 +3,8 @@ import { Intent } from './Intent'
 import { Modal } from './Modal'
 import { ChatCard } from './ChatCard'
 import { IntentsTypes } from '../data/types'
-// import {Button} from './Buttons/button'
 import intents from '../data/intents.json'
 import styled from 'styled-components'
-
-interface ChatsTypes {
-    message: string
-    bot: boolean
-}
 
 const StyledLanding = styled.div`
     .intents-list-cards {
@@ -47,13 +41,11 @@ const StyledChatBox = styled.div`
 
 export const Landing = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [isCustomer, setIsCustomer] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('')
     const [botReply, setBotReply] = useState<string>('')
-    const [text, setText] = useState<ChatsTypes[] | null>(null)
+    const [text, setText] = useState<string>('')
     const [intentProperties, setIntentProperties] = useState<null | IntentsTypes>(null);
-
-
+    const [disabled, setDisabled] = useState<boolean>(false)
     const getIntentsDetails = (intent: IntentsTypes) => {
         setIntentProperties(intent)
         setShowModal(true)
@@ -62,8 +54,9 @@ export const Landing = () => {
     // since we are not persisting the data, 
     // we want to clear the initial chats before opening the Modal again
     const onclose = () => {
-        setText(null)
+        setText('')
         setBotReply('')
+        setDisabled(false)
         setShowModal(false)
     }
 
@@ -81,28 +74,20 @@ export const Landing = () => {
     const sendBotReply = (message: string) => {
         intentProperties && intentProperties.trainingData.expressions.map((intentProperty) => {
             if (formatToLower(intentProperty.text).includes(formatToLower(message))) {
-            setBotReply(intentProperties.reply.text)
+                setBotReply(intentProperties.reply.text)
+                setDisabled(true)
             }
         })
     }
 
     //track chats locally before storing in state
-    const chats: ChatsTypes[] = [];
 
     const sendTextMessage = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setIsCustomer(true)
-        chats.push({ message: message, bot: isCustomer })
         setMessage('') //clear the text field
-        setText(chats)
-
+        setText(message)
        setTimeout(() => sendBotReply(message), 1000) //delay to simulate response
     }
-
-
-
-
-
 
     return (
         <>
@@ -114,7 +99,7 @@ export const Landing = () => {
                                 <div className="intent-name-cover"><span className="intent-name">Intent name: </span>{intent.name}</div>
                                 <div className="intent-description">[ {intent.description} ]</div>
                                 <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
-                                <ChatCard isBotResponse={isCustomer} text={intent.reply.text} />
+                                <ChatCard isBotResponse={false} text={intent.reply.text} />
                             </Intent>
                         ))}
                     </div>
@@ -123,9 +108,7 @@ export const Landing = () => {
 
             {intentProperties ?
                 <Modal title={intentProperties.description} onClose={onclose} open={showModal}>
-                    {(text && text.map((chat, i) => (
-                        <ChatCard isBotResponse={false} text={chat.message} key={i} />
-                    )))}
+                    {text &&  <ChatCard isBotResponse={false} text={text} />}
                     {botReply !== '' && <ChatCard isBotResponse={true} text={botReply} />}
                     <form onSubmit={(e) => sendTextMessage(e)}>
                         <StyledChatBox>
@@ -136,6 +119,7 @@ export const Landing = () => {
                                 placeholder="Ask us a question..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
+                                disabled={disabled}
                             />
                         </StyledChatBox>
                     </form>
