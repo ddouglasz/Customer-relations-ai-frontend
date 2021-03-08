@@ -39,6 +39,11 @@ const StyledChatBox = styled.div`
        
 `;
 
+const StyledLoader = styled.div`
+    text-align: center;
+    color: #ffff;
+`;
+
 export const Landing = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('')
@@ -46,6 +51,7 @@ export const Landing = () => {
     const [text, setText] = useState<string>('')
     const [intentProperties, setIntentProperties] = useState<null | IntentsTypes>(null);
     const [disabled, setDisabled] = useState<boolean>(false)
+
     const getIntentsDetails = (intent: IntentsTypes) => {
         setIntentProperties(intent)
         setShowModal(true)
@@ -62,7 +68,7 @@ export const Landing = () => {
 
     // Make sure data is available for when the component is mounting 
     // or at least tell the user something in the interim
-    if (!intents) return (<div className=""> loading... </div>)
+    if (!intents || intents.length === 0) return (<StyledLoader className="loading"> Loading... </StyledLoader>)
 
     //To avoid user from being conditioned to case-sensitive inputs,
     //format string to lower for comparison.
@@ -70,7 +76,7 @@ export const Landing = () => {
         return str.toLowerCase().trim()
     }
 
-    // search intent for user question.
+    // search intent for some key words from user question to simulate ai chatbot.
     const sendBotReply = (message: string) => {
         intentProperties && intentProperties.trainingData.expressions.map((intentProperty) => {
             if (formatToLower(intentProperty.text).includes(formatToLower(message))) {
@@ -80,13 +86,12 @@ export const Landing = () => {
         })
     }
 
-    //track chats locally before storing in state
 
     const sendTextMessage = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setMessage('') //clear the text field
         setText(message)
-       setTimeout(() => sendBotReply(message), 1000) //delay to simulate response
+        setTimeout(() => sendBotReply(message), 1000) //delay to simulate response
     }
 
     return (
@@ -108,7 +113,7 @@ export const Landing = () => {
 
             {intentProperties ?
                 <Modal title={intentProperties.description} onClose={onclose} open={showModal}>
-                    {text &&  <ChatCard isBotResponse={false} text={text} />}
+                    {text && <ChatCard isBotResponse={false} text={text} />}
                     {botReply !== '' && <ChatCard isBotResponse={true} text={botReply} />}
                     <form onSubmit={(e) => sendTextMessage(e)}>
                         <StyledChatBox>
