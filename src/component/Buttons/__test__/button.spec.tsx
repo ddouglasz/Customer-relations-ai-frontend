@@ -8,7 +8,7 @@ const props = {
     onclick: jest.fn()
 }
 
-test('renders button', () => {
+test('renders button component', () => {
     const { getAllByTestId } = render(<Button {...props} />);
     expect(getAllByTestId('button-container').length).toEqual(1);
 });

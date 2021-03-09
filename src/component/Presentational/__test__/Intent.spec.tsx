@@ -9,7 +9,7 @@ const props = {
     onClickIntentDetails: jest.fn(),
 }
 
-test('render intent', () => {
+test('renders intent component', () => {
     const { getAllByTestId } = render(<Intent {...props} />);
     expect(getAllByTestId('intent-container').length).toEqual(1);
 });

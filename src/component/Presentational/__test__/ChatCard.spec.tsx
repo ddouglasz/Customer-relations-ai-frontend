@@ -4,6 +4,6 @@ import { ChatCard } from '../ChatCard';
 
 test('renders chat text', () => {
     render(<ChatCard isBotResponse={true} text={'Hello'} />);
-    const chatElement = screen.getByText(/hello/i);
+    const chatElement = screen.getByText(/Hello/i);
     expect(chatElement).toBeInTheDocument();
 });
