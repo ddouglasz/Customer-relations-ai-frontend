@@ -57,7 +57,7 @@ export const Landing = () => {
         setShowModal(true)
     }
 
-    // since we are not persisting the data, 
+    // Since we are not persisting the data, 
     // we want to clear the initial chats before opening the Modal again
     const onclose = () => {
         setText('')
@@ -76,9 +76,9 @@ export const Landing = () => {
         return str.toLowerCase().trim()
     }
 
-    // search intent for some key words from user question to simulate ai chatbot.
-    const sendBotReply = (message: string) => {
-        intentProperties && intentProperties.trainingData.expressions.map((intentProperty) => {
+    // Search intent for some key words from user question to simulate ai chatbot.
+    const sendBotReply = async (message: string) => {
+         intentProperties && intentProperties.trainingData.expressions.forEach((intentProperty) => {
             if (formatToLower(intentProperty.text).includes(formatToLower(message))) {
                 setBotReply(intentProperties.reply.text)
                 setDisabled(true)
@@ -89,9 +89,9 @@ export const Landing = () => {
 
     const sendTextMessage = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setMessage('') //clear the text field
+        setMessage('') //Clear the text field
         setText(message)
-        setTimeout(() => sendBotReply(message), 1000) //delay to simulate response
+        setTimeout(() => sendBotReply(message), 1000) //Delay to simulate response
     }
 
     return (
