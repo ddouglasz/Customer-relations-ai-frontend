@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { IntentsTypes } from '../data/types'
+import { IntentsTypes } from '../../data/types'
 import styled from 'styled-components'
-import {Button} from './Buttons/button'
-import { notify } from "../actions/toastActions"
+import {Button} from '../Buttons/button'
+import { notify } from "../../actions/toastActions"
 
 
 const StyledIntentWrapper = styled.div`

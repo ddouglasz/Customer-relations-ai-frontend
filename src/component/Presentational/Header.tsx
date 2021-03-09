@@ -93,8 +93,8 @@ export const Header = () => {
                 </div>
             </div>
                 <div className="hero-text">
-                    <h1 className="list-header">Explore some of our smart responses</h1>
-                    <div className="description">Allow our AI technology learn and manage some of your repetitive conversations with your customers.</div>
+                    <h1 className="list-header">Explore some of our smart conversations</h1>
+                    <div className="description">Our Customer relations technology will learn and manage conversations with your customers using AI.</div>
                 </div>
         </StyledHeader>
     );

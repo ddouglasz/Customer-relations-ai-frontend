@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Intent } from './Intent'
-import { Modal } from './Modal'
-import { ChatCard } from './ChatCard'
-import { IntentsTypes } from '../data/types'
-import intents from '../data/intents.json'
+import { Intent } from '../Presentational/Intent'
+import { Modal } from '../Modal/Modal'
+import { ChatCard } from '../Presentational/ChatCard'
+import { IntentsTypes } from '../../data/types'
+import intents from '../../data/intents.json'
 import styled from 'styled-components'
 
 const StyledLanding = styled.div`

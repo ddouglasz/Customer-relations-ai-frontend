@@ -1,7 +1,7 @@
 import React from 'react';
-import Landing from './component/Landing'
-import {Header} from './component/Header'
-import {Footer} from './component/Footer'
+import Landing from './component/Landing/Landing'
+import {Header} from './component/Presentational/Header'
+import {Footer} from './component/Presentational/Footer'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
