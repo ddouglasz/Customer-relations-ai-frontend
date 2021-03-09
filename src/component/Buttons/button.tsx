@@ -17,7 +17,7 @@ interface ButtonProps {
 export const Button: FC<ButtonProps> = ({ title, classes, onclick }) => {
 
     return (
-        <StyledButton onClick={onclick} className={classes} >
+        <StyledButton onClick={onclick} className={classes} data-testid="button-container">
             {title}
         </StyledButton>
     );

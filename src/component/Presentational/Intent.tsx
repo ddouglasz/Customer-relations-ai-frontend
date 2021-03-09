@@ -52,7 +52,7 @@ export const Intent: FC<IntentProps> = ({ intentsData, onClickIntentDetails, chi
 
     return (
         intentsData ? (
-            <StyledIntentWrapper className="intent-cover" >
+            <StyledIntentWrapper className="intent-cover" data-testid="intent-container">
             <div>{children}</div>
             <div>
                 <Button classes='demo-btn btn' onclick={() => onClickIntentDetails(intentsData)} title='Demo' />

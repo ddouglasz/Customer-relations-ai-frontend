@@ -97,7 +97,7 @@ export const Landing = () => {
     return (
         <>
             <StyledLanding>
-                <div>
+                <div data-testid="landing-container">
                     <div className="intents-list-cards">
                         {intents.map((intent) => (
                             <Intent intentsData={intent} onClickIntentDetails={getIntentsDetails} key={intent.id} >
