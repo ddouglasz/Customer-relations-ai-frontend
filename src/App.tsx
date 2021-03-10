@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components'
 
 const StyledWrapper = styled.div`
-  .App-wrapper {
     background-color: #002D4F;
     min-height: 80vh;
     display: flex;
@@ -18,20 +17,19 @@ const StyledWrapper = styled.div`
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
- }
 `;
 
 
 function App() {
   return (
-    <StyledWrapper className="App">
+    <>
       <ToastContainer />
       <Header />
-      <div className="App-wrapper">
+      <StyledWrapper >
         <Landing />
-      </div>
+      </StyledWrapper>
       <Footer />
-    </StyledWrapper>
+    </>
   );
 }
 

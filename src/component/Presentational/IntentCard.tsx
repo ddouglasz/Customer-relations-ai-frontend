@@ -2,7 +2,10 @@ import React, { FC } from 'react';
 import { IntentsTypes } from '../../data/types'
 import styled from 'styled-components'
 import {Button} from '../Buttons/button'
-import { notify } from "../../actions/toastActions"
+import { toast } from "react-toastify"
+
+type Type = "success" | "error" | "warn" | "info"
+
 
 
 const StyledIntentWrapper = styled.div`
@@ -37,17 +40,23 @@ const StyledIntentWrapper = styled.div`
     }
 `;
 
+const notify = (message: string) => {
+    return toast.success(message, {
+      position: "top-right",
+    })
+}
+
 interface IntentProps {
     intentsData: IntentsTypes
     onClickIntentDetails: (intent: IntentsTypes) => void
 }
 
 
-export const Intent: FC<IntentProps> = ({ intentsData, onClickIntentDetails, children }) => {
+export const IntentCard: FC<IntentProps> = ({ intentsData, onClickIntentDetails, children }) => {
   
     //Simulate successful notification for adding integrating an intent to a user's chat
     const addFlashMessage = () => {
-        notify(`${intentsData.name} intent added successfully`, 'success');
+        notify(`${intentsData.name} intent added successfully`);
     }
 
     return (

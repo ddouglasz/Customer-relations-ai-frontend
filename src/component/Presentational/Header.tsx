@@ -84,12 +84,12 @@ export const Header = () => {
         <StyledHeader>
             <div className="nav-cover">
                 <div className="navbar-items navbar-items-left">
-                    <a href="#" className="navbar-item our-blog">Our blog</a>
-                    <a href="#" className="navbar-item our-products">Our products</a>
+                        <a href="/" className="navbar-item our-blog">Our blog</a>
+                    <a href="/" className="navbar-item our-products">Our products</a>
                 </div>
                 <div className="navbar-items navbar-items-right">
-                    <a href="#" className="navbar-item login">Login</a>
-                    <a href="#" className="navbar-item signup">Sign up</a>
+                    <a href="/" className="navbar-item login">Login</a>
+                    <a href="/" className="navbar-item signup">Sign up</a>
                 </div>
             </div>
                 <div className="hero-text">

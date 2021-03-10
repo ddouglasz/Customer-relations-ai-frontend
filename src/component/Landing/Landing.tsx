@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Intent } from '../Presentational/Intent'
+import { IntentCard } from '../Presentational/IntentCard'
 import { Modal } from '../Modal/Modal'
 import { ChatCard } from '../Presentational/ChatCard'
 import { IntentsTypes } from '../../data/types'
@@ -26,16 +26,14 @@ const StyledLanding = styled.div`
     }
 `;
 
-const StyledChatBox = styled.div`
-        .chatbox-field{
-            position: absolute;
-            bottom: 46px;
-            width: 92%;
-            height: 40px;
-            padding: 0 10px;
-            border-radius: 4px;
-            border: none; 
-        }
+const StyledChatBox = styled.input`
+        position: absolute;
+        bottom: 46px;
+        width: 92%;
+        height: 40px;
+        padding: 0 10px;
+        border-radius: 4px;
+        border: none; 
        
 `;
 
@@ -77,7 +75,7 @@ export const Landing = () => {
     }
 
     // Search intent for some key words from user question to simulate ai chatbot.
-    const sendBotReply = async (message: string) => {
+    const sendBotReply = (message: string) => {
          intentProperties && intentProperties.trainingData.expressions.forEach((intentProperty) => {
             if (formatToLower(intentProperty.text).includes(formatToLower(message))) {
                 setBotReply(intentProperties.reply.text)
@@ -100,12 +98,12 @@ export const Landing = () => {
                 <div data-testid="landing-container">
                     <div className="intents-list-cards">
                         {intents.map((intent) => (
-                            <Intent intentsData={intent} onClickIntentDetails={getIntentsDetails} key={intent.id} >
+                            <IntentCard intentsData={intent} onClickIntentDetails={getIntentsDetails} key={intent.id} >
                                 <div className="intent-name-cover"><span className="intent-name">Intent name: </span>{intent.name}</div>
                                 <div className="intent-description">[ {intent.description} ]</div>
                                 <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
                                 <ChatCard isBotResponse={false} text={intent.reply.text} />
-                            </Intent>
+                            </IntentCard>
                         ))}
                     </div>
                 </div>
@@ -114,19 +112,16 @@ export const Landing = () => {
             {intentProperties ?
                 <Modal title={intentProperties.description} onClose={onclose} open={showModal}>
                     {text && <ChatCard isBotResponse={false} text={text} />}
-                    {botReply !== '' && <ChatCard isBotResponse={true} text={botReply} />}
-                    <form onSubmit={(e) => sendTextMessage(e)}>
-                        <StyledChatBox>
-                            <input
-                                type="text"
-                                className="chatbox-field"
-                                name="Chat"
-                                placeholder="Ask us a question..."
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                disabled={disabled}
-                            />
-                        </StyledChatBox>
+                    {botReply && <ChatCard isBotResponse={true} text={botReply} />}
+                    <form onSubmit={sendTextMessage}>
+                        <StyledChatBox
+                            type="text"
+                            name="Chat"
+                            placeholder="Ask us a question..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            disabled={disabled}
+                        />
                     </form>
                 </Modal> : null}
         </>

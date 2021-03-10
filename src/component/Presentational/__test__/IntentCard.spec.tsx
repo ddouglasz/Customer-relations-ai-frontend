@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Intent } from '../Intent';
+import { IntentCard } from '../IntentCard';
 import intents from '../../../data/intents.json'
 import jest from 'jest-mock'
 
@@ -10,6 +10,6 @@ const props = {
 }
 
 test('renders intent component', () => {
-    const { getAllByTestId } = render(<Intent {...props} />);
+    const { getAllByTestId } = render(<IntentCard {...props} />);
     expect(getAllByTestId('intent-container').length).toEqual(1);
 });

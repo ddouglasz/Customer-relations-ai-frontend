@@ -35,8 +35,8 @@ export const Footer = () => {
             </div>
 
             <div className="rights">
-            <a href="/" className="contact-us">Contact us </a>
-            <div>© 2021 </div>
+                <a href="/" className="contact-us">Contact us </a>
+                <div>© 2021 </div>
             </div>
         </StyledFooter>
     );
