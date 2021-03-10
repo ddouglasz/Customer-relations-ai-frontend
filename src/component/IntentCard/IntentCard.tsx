@@ -41,7 +41,7 @@ const StyledIntentWrapper = styled.div`
     .demo-btn {
         position: absolute;
         bottom: 15px;
-        left: 76%;
+        left: 85%;
         background-color: #00308F;
         color: #ffff;
         margin-top: 20px
