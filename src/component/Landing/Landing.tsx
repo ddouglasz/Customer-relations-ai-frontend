@@ -7,10 +7,12 @@ import intents from '../../data/intents.json'
 import styled from 'styled-components'
 
 const StyledLanding = styled.div`
-    .intents-list-cards {
+display: flex;
+    .intents-cards {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        width: 70%;
     }
 
     .intent-name {
@@ -23,6 +25,34 @@ const StyledLanding = styled.div`
 
     .intent-description {
         font-size: 13px; 
+    }
+
+    .intent-nav-cover {
+        width: 30%;
+    }
+
+    .intent-nav-item {
+        list-style: none;
+        background: #ffff;
+        border-radius: 4px;
+        padding: 4px;
+        font-size: 16px;
+        margin: 5px;
+        color: #6699CC;
+    }
+
+    .intent-nav {
+        
+    }
+
+    .list-card {
+        
+    }
+
+    .intents-heading {
+        font-size: 32px;
+        margin-left: 43px;;
+        font-weight: 700;
     }
 `;
 
@@ -76,11 +106,13 @@ export const Landing = () => {
 
     // Search intent for some key words from user question to simulate ai chatbot.
     const sendBotReply = (message: string) => {
-         intentProperties && intentProperties.trainingData.expressions.forEach((intentProperty) => {
-            if (formatToLower(intentProperty.text).includes(formatToLower(message))) {
-                setBotReply(intentProperties.reply.text)
-                setDisabled(true)
-            }
+        intents && intents.forEach((intent) => {
+            intent.trainingData.expressions.forEach(expression => {
+                if (formatToLower(expression.text).includes(formatToLower(message))) {
+                    setBotReply(intent.reply.text)
+                    setDisabled(true)
+                }
+            });
         })
     }
 
@@ -95,17 +127,16 @@ export const Landing = () => {
     return (
         <>
             <StyledLanding>
-                <div data-testid="landing-container">
-                    <div className="intents-list-cards">
-                        {intents.map((intent) => (
-                            <IntentCard intentsData={intent} onClickIntentDetails={getIntentsDetails} key={intent.id} >
-                                <div className="intent-name-cover"><span className="intent-name">Intent name: </span>{intent.name}</div>
-                                <div className="intent-description">[ {intent.description} ]</div>
-                                <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
-                                <ChatCard isBotResponse={false} text={intent.reply.text} />
-                            </IntentCard>
+                <div className="intent-nav-cover">
+                    <div className="intents-heading"> Intents </div>
+                    <ul className="list-card">
+                        {intents.map(intent => (
+                            <li className="intent-nav-item">{intent.description}</li>
                         ))}
-                    </div>
+                    </ul>
+                </div>
+                <div data-testid="intent-container" className="intents-cards">
+                    <IntentCard intentsData={intents} onClickIntentDetails={getIntentsDetails} />
                 </div>
             </StyledLanding>
 

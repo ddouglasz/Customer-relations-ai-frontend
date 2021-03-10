@@ -10,7 +10,7 @@ import styled from 'styled-components'
 
 const StyledWrapper = styled.div`
     background-color: #002D4F;
-    min-height: 80vh;
+    min-height: 65vh;
     display: flex;
     flex-direction: column;
     align-items: center;

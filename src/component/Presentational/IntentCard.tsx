@@ -1,20 +1,25 @@
 import React, { FC } from 'react';
 import { IntentsTypes } from '../../data/types'
 import styled from 'styled-components'
-import {Button} from '../Buttons/button'
+import { Button } from '../Buttons/button'
+import { ChatCard } from '../Presentational/ChatCard'
 import { toast } from "react-toastify"
-
-type Type = "success" | "error" | "warn" | "info"
-
 
 
 const StyledIntentWrapper = styled.div`
     background-color: #13274F;
     margin: 20px;
     padding: 20px;
-    width: 300px;
+    width: 50%;
     min-height: 300px;
-    position: relative;
+
+    .chat-container {
+        max-height: 40vh;
+        overflow-y: scroll;
+        position: relative; 
+    }
+    
+
 
     .btn {
         border-radius: 4px;
@@ -42,31 +47,41 @@ const StyledIntentWrapper = styled.div`
 
 const notify = (message: string) => {
     return toast.success(message, {
-      position: "top-right",
+        position: "top-right",
     })
 }
 
-interface IntentProps {
-    intentsData: IntentsTypes
-    onClickIntentDetails: (intent: IntentsTypes) => void
-}
+// interface IntentProps {
+//     intentsData: IntentsTypes
+//     onClickIntentDetails: (intent: IntentsTypes) => void
+// }
 
 
-export const IntentCard: FC<IntentProps> = ({ intentsData, onClickIntentDetails, children }) => {
-  
+export const IntentCard = (intentsData: any, onClickIntentDetails: (intent: IntentsTypes) => void) => {
+
     //Simulate successful notification for adding integrating an intent to a user's chat
     const addFlashMessage = () => {
-        notify(`${intentsData.name} intent added successfully`);
+        notify('Intent integrated successfully');
     }
 
+    { console.log(intentsData.intentsData[0]) }
+    // {    intentsData.map((intenD: any)  => console.log(intenD))}
     return (
-        intentsData ? (
-            <StyledIntentWrapper className="intent-cover" data-testid="intent-container">
-            <div>{children}</div>
+        <StyledIntentWrapper className="intent-cover" data-testid="intent-container">
+            <div className="chat-container">
+            {intentsData ? intentsData.intentsData.map((intent: any) => (
+                    <><div className="intent-name-cover"><span className="intent-name">Intent name: </span>{intent.name}</div>
+                    <div className="intent-description">[ {intent.description} ]</div>
+            
+                <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
+                <ChatCard isBotResponse={false} text={intent.reply.text} /></>
+            )) : null}
             <div>
-                <Button classes='demo-btn btn' onclick={() => onClickIntentDetails(intentsData)} title='Demo' />
+            </div>
+                {/* <Button classes='demo-btn btn' onclick={() => onClickIntentDetails(intent.intent)} title='Demo' /> */}
                 <Button classes='integrate-btn btn' onclick={addFlashMessage} title='Integrate' />
             </div>
-        </StyledIntentWrapper>) : null
-    );
+        </StyledIntentWrapper>
+        // <div>hi</div>
+    )
 };

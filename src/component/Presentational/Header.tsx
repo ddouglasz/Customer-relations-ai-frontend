@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`
-    height: 400px;
+    height: 200px;
     position: relative;
     background: #002244;
     .nav-cover {
@@ -40,26 +40,13 @@ const StyledHeader = styled.header`
 
     }
 
-    .hero-cover {
-        position: relative;
-        width: 50%;
-        min-height: 100%;
-    }
-
-    .chatbot-img {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: -1;
-    }
-    
     .header-text {
         color: #1F305E;
     }
    
     .list-header {
         color: #20639B;
-        margin-top: 10%;
+        margin-top: 0;
         font-size: 50px;
     }
     
@@ -94,7 +81,6 @@ export const Header = () => {
             </div>
                 <div className="hero-text">
                     <h1 className="list-header">Explore some of our smart conversations</h1>
-                    <div className="description">Our Customer relations technology will learn and manage conversations with your customers using AI.</div>
                 </div>
         </StyledHeader>
     );

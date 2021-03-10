@@ -6,7 +6,7 @@ const StyledFooter = styled.div`
     color: #ffff;
     display: flex;
     justify-content: space-between;
-    padding: 50px;
+    padding: 30px;
 
     .social-icon {
         margin: 0 20px;

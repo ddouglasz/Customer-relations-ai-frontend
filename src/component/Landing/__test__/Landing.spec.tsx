@@ -5,5 +5,5 @@ import { Landing } from '../Landing';
 
 test('renders landing component', () => {
     const { getAllByTestId } =  render(<Landing />);
-    expect(getAllByTestId('landing-container').length).toEqual(1);
+    expect(getAllByTestId('intent-container').length).toEqual(1);
 });
