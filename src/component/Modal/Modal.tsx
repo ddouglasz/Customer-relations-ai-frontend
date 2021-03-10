@@ -41,6 +41,12 @@ const StyledModalCover = styled.div`
     .modal-header {
         text-align: center;
     }
+
+    .chat-cover {
+        overflow-y: scroll;
+        /* height: 30vh; */
+        min-height: 10vh;
+    }
 `;
 
 interface ModalProps {
@@ -59,7 +65,6 @@ interface ModalMouseEvent extends React.MouseEvent<HTMLDivElement, MouseEvent> {
 
 export const Modal: FC<ModalProps> = ({ children, title, onClose, open }) => {
     if (!open) {
-        document.body.style.position = ''
         return null;
     }
 
@@ -70,7 +75,6 @@ export const Modal: FC<ModalProps> = ({ children, title, onClose, open }) => {
     };
 
 
-    document.body.style.position = 'fixed'
     return (
         <StyledModalCover data-testid="modal-container" className="" id="modal-id" onClick={(e: ModalMouseEvent) => handleOutsideClick(e)}>
             <div className="modal-cover">
@@ -81,7 +85,9 @@ export const Modal: FC<ModalProps> = ({ children, title, onClose, open }) => {
                     <header className="modal-header">
                         <h2 className="">{title}</h2>
                     </header>
+                    <div className="">
                     <div className="">{children}</div>
+                    </div>
                 </div>
             </div>
 

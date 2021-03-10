@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { IntentCard } from '../IntentCard';
-import intents from '../../../data/intents.json'
+import { IntentCard } from './IntentCard';
+import intents from '../../data/intents.json'
 import jest from 'jest-mock'
 
 const props = {
-    intentsData: intents[1],
+    intentsData: intents,
     onClickIntentDetails: jest.fn(),
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import Landing from './component/Landing/Landing'
-import {Header} from './component/Presentational/Header'
-import {Footer} from './component/Presentational/Footer'
+import Landing from '../src/component/Landing/Landing'
+import {Header} from './component/Header/Header'
+import {Footer} from './component/Footer/Footer'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,7 +13,6 @@ const StyledWrapper = styled.div`
     min-height: 65vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;

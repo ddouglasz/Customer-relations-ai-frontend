@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ChatCard } from '../ChatCard';
+import { ChatCard } from './ChatCard';
 
 test('renders chat text', () => {
     render(<ChatCard isBotResponse={true} text={'Hello'} />);

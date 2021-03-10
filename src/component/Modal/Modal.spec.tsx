@@ -1,6 +1,6 @@
 import React from 'react';
-import { Modal } from '../Modal';
-import intents from '../../../data/intents.json'
+import { Modal } from './Modal';
+import intents from '../../data/intents.json'
 import { render } from '@testing-library/react';
 import jest from 'jest-mock'
 
