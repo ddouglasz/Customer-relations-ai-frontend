@@ -43,9 +43,8 @@ const StyledModalCover = styled.div`
     }
 
     .chat-cover {
+        height: 370px;
         overflow-y: scroll;
-        /* height: 30vh; */
-        min-height: 10vh;
     }
 `;
 
@@ -86,7 +85,8 @@ export const Modal: FC<ModalProps> = ({ children, title, onClose, open }) => {
                         <h2 className="">{title}</h2>
                     </header>
                     <div className="">
-                    <div className="">{children}</div>
+                    <div className="chat-cover">{children}
+                    </div>
                     </div>
                 </div>
             </div>

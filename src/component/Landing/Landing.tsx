@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState, createRef } from 'react'
 import { IntentCard } from '../IntentCard/IntentCard'
 import { Modal } from '../Modal/Modal'
 import { ChatCard } from '../ChatCard/ChatCard'
@@ -107,6 +107,7 @@ const StyledLoader = styled.div`
     color: #ffff;
 `;
 
+
 export const Landing = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('')
@@ -124,8 +125,8 @@ export const Landing = () => {
         const messageListLength = messagePair.length
         if (messageListLength === 0) return
         const response = sendBotReply(messagePair[messageListLength - 1].message)
-        const messagePairCopy = [ ...messagePair ]
-        messagePairCopy[messageListLength  - 1 ].response = response
+        const messagePairCopy = [...messagePair]
+        messagePairCopy[messageListLength - 1].response = response
         setTimeout(() => {
             setMessagePair(messagePairCopy)
         }, 1000);
@@ -133,10 +134,10 @@ export const Landing = () => {
 
 
     let lastMessage = ''
-    if (messagePair.length != 0) { 
+    if (messagePair.length != 0) {
         lastMessage = messagePair[messagePair.length - 1].message
     }
-        
+
     const memoizedCallback = React.useCallback(
         () => {
             updateResponse();
@@ -144,10 +145,16 @@ export const Landing = () => {
         [lastMessage],
     )
 
-    useEffect(() => {
+    let messagesEnd: any = createRef()
+
+    const scrollToBottom = () => {
+        messagesEnd.scrollIntoView({ behavior: "smooth"}); //Kepp chat scrolled to bottom
+        console.log(messagesEnd)
+    }
+
+    useLayoutEffect(() => {
         updateResponse()
     }, [memoizedCallback])
-
 
 
     // Make sure data is available for when the component is mounting 
@@ -175,10 +182,11 @@ export const Landing = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const messagePairCopy = [ ...messagePair ]
+        const messagePairCopy = [...messagePair]
         messagePairCopy.push({
             message,
         })
+        scrollToBottom()
         setMessagePair(messagePairCopy)
         setMessage('') //Clear the text field
     }
@@ -204,14 +212,15 @@ export const Landing = () => {
                 </div>
             </StyledLanding>
 
-
             <Modal title='Try out some intents' onClose={onclose} open={showModal} >
-               { messagePair.map((pair: any) => (
-                    <div className="chat-cover">
-                    <ChatCard isBotResponse={false} text={pair.message} />
-                    { pair.response && <ChatCard isBotResponse={true} text={pair.response} />}
+                {messagePair.map((pair: { message: string; response: string }) => (
+                    <div>
+                        <ChatCard isBotResponse={false} text={pair.message} />
+                        { pair.response && <ChatCard isBotResponse={true} text={pair.response} />}
                     </div>
-                ))}
+                ))
+                }
+                <div ref={(el) => { messagesEnd = el; }}></div>
 
                 <StyledForm onSubmit={handleSubmit}>
                     <input

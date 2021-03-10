@@ -74,16 +74,16 @@ export const IntentCard: FC<IntentProps> = ({intentsData, onClickIntentDetails})
     return (
         <StyledIntentWrapper className="intent-cover" data-testid="intent-container">
             <div className="chat-container">
-            {intentsData ? intentsData.map((intent: any) => (
-            <div id={`${intent.name}`} className="intent-set" key={intent.id}>
-                <div className="intent-name-cover">
+            {intentsData ? intentsData.map((intent: IntentsTypes) => (
+                <div id={`${intent.name}`} className="intent-set" key={intent.id}>
+                    <div className="intent-name-cover">
                         <span className="intent-name">Intent name: </span>{intent.name}
+                    </div>
+                    <div className="intent-description">[{intent.description} ]</div>
+
+                    <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
+                    <ChatCard isBotResponse={false} text={intent.reply.text} />
                 </div>
-                <div className="intent-description">[ {intent.description} ]</div>
-            
-                <ChatCard isBotResponse={true} text={intent.trainingData.expressions[0].text} />
-                <ChatCard isBotResponse={false} text={intent.reply.text} />
-            </div>
             )) : null}
             <div>
             </div>
